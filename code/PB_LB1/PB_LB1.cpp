@@ -36,11 +36,11 @@ int fifthField(double x, double y) {
 //All left and right border values are hardcoded for writing less code and using less var's 
 double findIntegral(double (*findY)(double), double leftBorder, double rightBorder) {
 	double dx, summaryY = 0;
-	int step = 25; //Step value can be different, but bigger step's value increases integral accuracy
-	dx = (rightBorder - leftBorder) / step;
+	int step = 1000; //Step value can be different, but bigger step's value increases integral accuracy
+	dx = (rightBorder - leftBorder) / step; //Finding x's step length
 	summaryY += findY(rightBorder) + findY(leftBorder);
-	for (int i = 1; i < step; i++) { summaryY += 2 * (findY(leftBorder + dx * i)); }
-	double integral = (rightBorder - leftBorder) / (2 * step) * summaryY;
+	for (int i = 1; i < step; i++) { summaryY += 2 * (findY(leftBorder + dx * i)); }  //Finding all y's values
+	double integral = (rightBorder - leftBorder) / (2 * step) * summaryY; //Finding integral;
 	return integral;
 }
 
@@ -79,7 +79,7 @@ double thirdArea_FindY2(double x) {
 	return sqrt(1 - (x - 1) * (x - 1));
 }
 //---------------------------------
-//FOURTH AREA----------------------
+//FOURTH AND FIFTH AREAS----------------------
 double fourthArea_FindY1(double x) {
 	return sqrt(1 - (x + 1) * (x + 1)) - 1;
 }
@@ -90,22 +90,11 @@ double fourthArea_FindY3(double x) {
 	return -sqrt(1 - (x + 1) * (x + 1)) - 1;
 }
 //---------------------------------
-//FIFTH AREA----------------------
-double fifthArea_FindY1(double x) {
-	return sqrt(1 - (x - 1) * (x - 1)) - 1;
-}
-double fifthArea_FindY2(double x) {
-	return -sqrt(1 - (x - 1) * (x - 1));
-}
-double fifthArea_FindY3(double x) {
-	return -sqrt(1 - (x - 1) * (x - 1)) - 1;
-}
-//---------------------------------
-
 
 int main()
 {
 	setlocale(LC_ALL, "RU");
+	cout << "Введите координаты точки: " << endl; 
 
 	double x, y, dy;
 	cin >> x >> y;
@@ -117,31 +106,31 @@ int main()
 	{
 	case 1: {
 		cout << "Точка принадлежит 1 области" << endl;
-		cout << "Площадь равна: " << findIntegral(firstArea_FindY1, -1, -0.5) + findIntegral(firstArea_FindY2, -0.5, 0) - findIntegral (firstArea_FindY3, -1, -1 + sqrt(3.) / 2) - findIntegral(firstArea_FindY4, -1 + sqrt(3.) / 2, 0);
+		cout << "Площадь области равна: " << findIntegral(firstArea_FindY1, -1, -0.5) + findIntegral(firstArea_FindY2, -0.5, 0) - findIntegral (firstArea_FindY3, -1, -1 + sqrt(3.) / 2) - findIntegral(firstArea_FindY4, -1 + sqrt(3.) / 2, 0);
 		break;
 	}
 	case 2: {
 		cout << "Точка принадлежит 2 области" << endl;
-		cout << "Площадь равна: " << findIntegral(secondArea_FindY1, 0.5, 1) - findIntegral(secondArea_FindY2, sqrt(3) / 2, 1) - findIntegral(secondArea_FindY3, 0.5, sqrt(3) / 2);
+		cout << "Площадь области равна: " << findIntegral(secondArea_FindY1, 0.5, 1) - findIntegral(secondArea_FindY2, sqrt(3) / 2, 1) - findIntegral(secondArea_FindY3, 0.5, sqrt(3) / 2);
 		break;
 	}
 	case 3: {
 		cout << "Точка принадлежит 3 области" << endl;
-		cout << "Площадь равна: " << findIntegral(thirdArea_FindY1, 1, 1 + sqrt(3) / 2) + findIntegral(thirdArea_FindY2, 1 + sqrt(3) / 2, 2);
+		cout << "Площадь области равна: " << findIntegral(thirdArea_FindY1, 1, 1 + sqrt(3) / 2) + findIntegral(thirdArea_FindY2, 1 + sqrt(3) / 2, 2);
 		break;
 	}
 	case 4: {
 		cout << "Точка принадлежит 4 области" << endl;
-		cout << "Площадь равна: " << findIntegral(fourthArea_FindY1, -2, -1 - sqrt(3) / 2) + findIntegral(fourthArea_FindY2, -1 - sqrt(3) / 2, -1) - findIntegral(fourthArea_FindY3, -2, -1);
+		cout << "Площадь области равна: " << findIntegral(fourthArea_FindY1, -2, -1 - sqrt(3) / 2) + findIntegral(fourthArea_FindY2, -1 - sqrt(3) / 2, -1) - findIntegral(fourthArea_FindY3, -2, -1);
 		break;
 	}
 	case 5: {
 		cout << "Точка принадлежит 5 области" << endl;
-		cout << "Площадь равна: " << 2 * (findIntegral(fifthArea_FindY1, 0, 1 - sqrt(3) / 2) + findIntegral(fifthArea_FindY2, 1 - sqrt(3) / 2, 1) - findIntegral(fifthArea_FindY3, 0, 1));
+		cout << "Площадь области равна: " << 2 * (findIntegral(fourthArea_FindY1, -2, -1 - sqrt(3) / 2) + findIntegral(fourthArea_FindY2, -1 - sqrt(3) / 2, -1) - findIntegral(fourthArea_FindY3, -2, -1));
 		break;
 	}
 	default:
 		cout << "Точка не принадлежит ни одной выделенной области!";
 		break;
 	}
-}
+}	
